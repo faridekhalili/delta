@@ -315,5 +315,22 @@ describe('compose()', () => {
         a.compose(b);
       }).toThrowError('no handlers for embed type "mydelta"');
     });
+
+    it('delta_4', () => {
+      // Notes: very difficult to write. Reachability of infection is predicated upon
+      // multiple conditions being met, all of which required further understanding of
+      // the library's classes and types to create a test case to meet.
+      /**
+        src/Delta.ts:242:7
+        -         firstOther != null &&
+        -         typeof firstOther.retain === 'number' &&
+        -         firstOther.attributes == null
+        +         false
+      */
+      const a = new Delta()
+      a.ops = [{ 'insert': 'foo' }, { 'insert': 'bar' }, { 'insert': 'baz' }]
+      const b = new Delta([{ 'retain': 7 }])
+      expect(a.compose(b)).toEqual(new Delta([{ 'insert': 'foo' }, { 'insert': 'barbaz' }]))
+    });
   });
 });

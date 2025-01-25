@@ -85,6 +85,32 @@ describe('AttributeMap', () => {
       const expected = { color: 'blue' };
       expect(AttributeMap.diff(format, overwritten)).toEqual(expected);
     });
+
+    it('delta_0', () => {
+      /**
+        BlockStatement
+        src/AttributeMap.ts:44:32
+        -       if (typeof b !== 'object') {
+        -         b = {};
+        -       }
+        +       if (typeof b !== 'object') {}
+       */
+      const a = { foo: 'bar' };
+      const b = <AttributeMap><unknown>'baz';
+      expect(AttributeMap.diff(a, b)).toEqual({ foo: null })
+    });
+
+    it('delta_1', () => {
+      /**
+        ConditionalExpression
+        src/AttributeMap.ts:41:9
+        -       if (typeof a !== 'object') {
+        +       if (false) {
+       */
+      const a = <AttributeMap><unknown>'baz';
+      const b = { foo: 'bar' };
+      expect(AttributeMap.diff(a, b)).toEqual({ foo: 'bar' })
+    });
   });
 
   describe('invert()', () => {
