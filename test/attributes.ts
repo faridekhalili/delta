@@ -50,6 +50,20 @@ describe('AttributeMap', () => {
         attributes,
       );
     });
+
+    it('delta_11', () => {
+      /**
+        BlockStatement
+        src/AttributeMap.ts:17:32
+        -       if (typeof b !== 'object') {
+        -         b = {};
+        -       }
+        +       if (typeof b !== 'object') {}
+       */
+      const a: AttributeMap = {};
+      const b: AttributeMap = <AttributeMap><unknown>'foo';
+      expect(AttributeMap.compose(a, b)).not.toBeDefined();
+    });
   });
 
   describe('diff()', () => {
