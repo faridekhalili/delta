@@ -159,4 +159,19 @@ describe('diff()', () => {
       a.diff(b);
     }).toThrow(new Error('diff() called on non-document'));
   });
+
+  it('delta_6', () => {
+    /**
+      BlockStatement
+      src/Delta.ts:340:33
+      -       if (this.ops === other.ops) {
+      -         return new Delta();
+      -       }
+      +       if (this.ops === other.ops) {}
+     */
+    const op = [{ 'insert': undefined }]
+    const a = new Delta(op);
+    const b = new Delta(op);
+    expect(a.diff(b)).toEqual(new Delta());
+  });
 });
