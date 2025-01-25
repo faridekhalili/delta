@@ -168,6 +168,18 @@ describe('AttributeMap', () => {
       const expected = { bold: null, italic: true, color: 'blue' };
       expect(AttributeMap.invert(attributes, base)).toEqual(expected);
     });
+
+    it('delta_10', () => {
+      /**
+        ConditionalExpression
+        src/AttributeMap.ts:70:11
+        -         if (attr[key] !== base[key] && base[key] === undefined) {
+        +         if (true && base[key] === undefined) {
+       */
+      const base = { key: undefined }
+      const attr = { key: undefined }
+      expect(AttributeMap.invert(base, attr)).toEqual({});
+    });
   });
 
   describe('transform()', () => {
