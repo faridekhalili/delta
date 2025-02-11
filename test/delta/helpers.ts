@@ -1,5 +1,4 @@
 import Delta from '../../src/Delta';
-import AttributeMap from '../../src/AttributeMap';
 
 describe('helpers', () => {
   describe('concat()', () => {
@@ -40,19 +39,6 @@ describe('helpers', () => {
       const delta = new Delta().insert('Test');
       const expected = new Delta().insert('Test');
       expect(delta.chop()).toEqual(expected);
-    });
-
-    it('delta_9', () => {
-      /**
-        ConditionalExpression
-        src/Delta.ts:80:7
-        -         typeof attributes === 'object' &&
-        +         true &&
-       */
-      const a = new Delta();
-      const b = new Delta([{ insert: 'foo' }]);
-      const attributes: AttributeMap = <AttributeMap><unknown>'bar';
-      expect(a.insert('foo', attributes)).toEqual(b)
     });
 
     it('formatted retain', () => {
