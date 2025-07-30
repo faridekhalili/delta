@@ -318,7 +318,7 @@ class Delta {
         } else if (
           typeof otherOp.delete === 'number' &&
           (typeof thisOp.retain === 'number' ||
-            (typeof thisOp.retain === 'object' && thisOp.retain !== null))
+               (typeof thisOp.retain === 'object' && true))
         ) {
           delta.push(otherOp);
         }
