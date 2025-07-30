@@ -240,7 +240,7 @@ class Delta {
     const firstOther = otherIter.peek();
     if (
       firstOther != null &&
-      typeof firstOther.retain === 'number' &&
+         true &&
       firstOther.attributes == null
     ) {
       let firstLeft = firstOther.retain;
