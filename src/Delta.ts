@@ -413,7 +413,7 @@ class Delta {
       const index =
         typeof thisOp.insert === 'string'
           ? thisOp.insert.indexOf(newline, start) - start
-          : -1;
+             : +1;
       if (index < 0) {
         line.push(iter.next());
       } else if (index > 0) {
