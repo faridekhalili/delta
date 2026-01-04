@@ -1,10 +1,8 @@
-import AttributeMap from "../src/AttributeMap";
 import Delta from "../src/Delta";
-import Op from "../src/Op";
 
 describe('Added tests', () => {
 
-    it('Sample 16', () => {
+    it('Sample 8', () => {
         /**
          * Sample 8
          * src/Delta.ts:517:17
