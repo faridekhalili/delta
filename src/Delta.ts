@@ -245,7 +245,7 @@ class Delta {
     ) {
       let firstLeft = firstOther.retain;
       while (
-        thisIter.peekType() === 'insert' &&
+        thisIter.peekType() === "" &&
         thisIter.peekLength() <= firstLeft
       ) {
         firstLeft -= thisIter.peekLength();
