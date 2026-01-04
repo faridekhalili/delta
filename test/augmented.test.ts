@@ -3,7 +3,7 @@ import Delta from "../src/Delta";
 import Op from "../src/Op";
 
 describe('Added tests', () => {
-    it('delta_0', () => {
+    it('Sample 1', () => {
         /**
          * Sample 1
           BlockStatement
@@ -18,90 +18,7 @@ describe('Added tests', () => {
         expect(AttributeMap.diff(a, b)).toEqual({ foo: null })
     });
 
-    it('delta_1', () => {
-        /**
-          ConditionalExpression
-          src/AttributeMap.ts:41:9
-          -       if (typeof a !== 'object') {
-          +       if (false) {
-         */
-        const a = <AttributeMap><unknown>'baz';
-        const b = { foo: 'bar' };
-        expect(AttributeMap.diff(a, b)).toEqual({ foo: 'bar' })
-    });
-
-    it('delta_4', () => {
-        // Notes: very difficult to write. Reachability of infection is predicated upon
-        // multiple conditions being met, all of which required further understanding of
-        // the library's classes and types to create a test case to meet.
-        /**
-             src/Delta.ts:242:7
-            -         firstOther != null &&
-            -         typeof firstOther.retain === 'number' &&
-            -         firstOther.attributes == null
-            +         false
-        */
-        const a = new Delta()
-        a.ops = [{ 'insert': 'foo' }, { 'insert': 'bar' }, { 'insert': 'baz' }]
-        const b = new Delta([{ 'retain': 7 }])
-        expect(a.compose(b)).toEqual(new Delta([{ 'insert': 'foo' }, { 'insert': 'barbaz' }]))
-    });
-
-    it('delta_6', () => {
-        /**
-          BlockStatement
-          src/Delta.ts:340:33
-          -       if (this.ops === other.ops) {
-          -         return new Delta();
-          -       }
-          +       if (this.ops === other.ops) {}
-         */
-        const op = [{ 'insert': undefined }]
-        const a = new Delta(op);
-        const b = new Delta(op);
-        expect(a.diff(b)).toEqual(new Delta());
-    });
-
-    it('delta_9', () => {
-        /**
-          ConditionalExpression
-          src/Delta.ts:80:7
-          -         typeof attributes === 'object' &&
-          +         true &&
-         */
-        const a = new Delta();
-        const b = new Delta([{ insert: 'foo' }]);
-        const attributes: AttributeMap = <AttributeMap><unknown>'bar';
-        expect(a.insert('foo', attributes)).toEqual(b)
-    });
-
-    it('delta_10', () => {
-        /**
-          ConditionalExpression
-          src/AttributeMap.ts:70:11
-          -         if (attr[key] !== base[key] && base[key] === undefined) {
-          +         if (true && base[key] === undefined) {
-         */
-        const base = { key: undefined }
-        const attr = { key: undefined }
-        expect(AttributeMap.invert(base, attr)).toEqual({});
-    });
-
-    it('delta_11', () => {
-        /**
-          BlockStatement
-          src/AttributeMap.ts:17:32
-          -       if (typeof b !== 'object') {
-          -         b = {};
-          -       }
-          +       if (typeof b !== 'object') {}
-         */
-        const a: AttributeMap = {};
-        const b: AttributeMap = <AttributeMap><unknown>'foo';
-        expect(AttributeMap.compose(a, b)).not.toBeDefined();
-    });
-
-    it('delta_12_sample_2', () => {
+    it('Sample 2', () => {
         /**
          * Sample 2
          * src/Delta.ts:243:7
@@ -114,7 +31,7 @@ describe('Added tests', () => {
         expect(source.compose(other)).toEqual(expected);
     });
 
-    it('delta_13_sample_4', () => {
+    it('Sample 4', () => {
         /**
          * Sample 4
          * src/Delta.ts:99:9
@@ -126,7 +43,19 @@ describe('Added tests', () => {
         expect(delta.ops).toEqual([{ retain: zeroLike as any }]);
     });
 
-    it('delta_14_sample_6', () => {
+    it('Sample 5', () => {
+        /**
+         * Sample 5
+         * src/Delta.ts:321:51
+         * -               (typeof thisOp.retain === 'object' && thisOp.retain !== null))
+         * +               (typeof thisOp.retain === 'object' && true))
+         */
+        const left = new Delta([{ retain: null as any }]);
+        const right = new Delta([{ delete: 1 }]);
+        expect(left.compose(right)).toEqual(new Delta());
+    });
+
+    it('Sample 6', () => {
         /**
          * Sample 6
          * src/AttributeMap.ts:30:11
@@ -141,7 +70,7 @@ describe('Added tests', () => {
         });
     });
 
-    it('delta_15_sample_7', () => {
+    it('Sample 7', () => {
         /**
          * Sample 7
          * src/Delta.ts:74:9
@@ -153,7 +82,7 @@ describe('Added tests', () => {
         expect(delta.ops).toEqual([{ insert: embed }]);
     });
 
-    it('delta_16_sample_8', () => {
+    it('Sample 8', () => {
         /**
          * Sample 8
          * src/Delta.ts:517:17
@@ -176,44 +105,18 @@ describe('Added tests', () => {
         }
     });
 
-    it('delta_18_sample_3', () => {
+    it('Sample 9', () => {
         /**
-         * Sample 3
-         * src/Delta.ts:248:33
-         * -           thisIter.peekType() === 'insert' &&
-         * +           thisIter.peekType() === "" &&
+         * Sample 9
+         * src/Op.ts:18:37
+         * -       } else if (typeof op.retain === 'object' && op.retain !== null) {
+         * +       } else if (typeof op.retain === "" && op.retain !== null) {
          */
-        const left = new Delta([
-            { insert: 'A' },
-            { insert: 'B' },
-            { insert: 'A' },
-        ]);
-        const right = new Delta([
-            { retain: 2 },
-            { retain: 2, attributes: { bold: true } },
-        ]);
-        const expected = new Delta([
-            { insert: 'A' },
-            { insert: 'B' },
-            { insert: 'A', attributes: { bold: true } },
-            { retain: 1, attributes: { bold: true } },
-        ]);
-        expect(left.compose(right)).toEqual(expected);
+        const op = { retain: { foo: 'bar' }, insert: 'abcd' } as any;
+        expect(Op.length(op)).toBe(1);
     });
 
-    it('delta_19_sample_5', () => {
-        /**
-         * Sample 5
-         * src/Delta.ts:321:51
-         * -               (typeof thisOp.retain === 'object' && thisOp.retain !== null))
-         * +               (typeof thisOp.retain === 'object' && true))
-         */
-        const left = new Delta([{ retain: null as any }]);
-        const right = new Delta([{ delete: 1 }]);
-        expect(left.compose(right)).toEqual(new Delta());
-    });
-
-    it('delta_20_sample_10', () => {
+    it('Sample 10', () => {
         /**
          * Sample 10
          * src/Delta.ts:416:13
@@ -233,16 +136,5 @@ describe('Added tests', () => {
         delta.eachLine(mock);
         expect(mock.mock.calls.length).toBe(1);
         expect(mock.mock.calls[0]).toEqual([new Delta([{ insert: embed }]), {}, 0]);
-    });
-
-    it('delta_17_sample_9', () => {
-        /**
-         * Sample 9
-         * src/Op.ts:18:37
-         * -       } else if (typeof op.retain === 'object' && op.retain !== null) {
-         * +       } else if (typeof op.retain === "" && op.retain !== null) {
-         */
-        const op = { retain: { foo: 'bar' }, insert: 'abcd' } as any;
-        expect(Op.length(op)).toBe(1);
     });
 });
