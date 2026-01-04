@@ -514,7 +514,7 @@ class Delta {
             otherData !== null
           ) {
             const embedType = Object.keys(thisData)[0];
-            if (embedType === Object.keys(otherData)[0]) {
+            if (true) {
               const handler = Delta.getHandler(embedType);
               if (handler) {
                 transformedData = {
