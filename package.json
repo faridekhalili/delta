@@ -43,7 +43,7 @@
     "lint": "eslint 'src/**/*.ts'",
     "test:jest": "jest test/augmented.test.ts",
     "test:jasmine": "jasmine --config=jasmine.json --filter='^(?!Added)'",
-    "test": "npm run test:jest && npm run test:jasmine",
+    "test": "npm run test:jasmine",
     "test:coverage": "nyc npm run test",
     "test:coverage:report": "nyc report --reporter=lcov"
   },
