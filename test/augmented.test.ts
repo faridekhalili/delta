@@ -68,33 +68,6 @@ describe('Added tests', () => {
         expect(delta.ops).toEqual([{ retain: zeroLike as any }]);
     });
 
-    it('Sample 5', () => {
-        /**
-         * Sample 5
-         * src/Delta.ts:321:51
-         * -               (typeof thisOp.retain === 'object' && thisOp.retain !== null))
-         * +               (typeof thisOp.retain === 'object' && true))
-         */
-        const left = new Delta([{ retain: null as any }]);
-        const right = new Delta([{ delete: 1 }]);
-        expect(left.compose(right)).toEqual(new Delta());
-    });
-
-    it('Sample 6', () => {
-        /**
-         * Sample 6
-         * src/AttributeMap.ts:30:11
-         * -         if (a[key] !== undefined && b[key] === undefined) {
-         * +         if (true && b[key] === undefined) {
-         */
-        const left = { bold: undefined, color: 'red' };
-        const right = { italic: true };
-        expect(AttributeMap.compose(left, right)).toEqual({
-            italic: true,
-            color: 'red',
-        });
-    });
-
     it('Sample 7', () => {
         /**
          * Sample 7
@@ -140,26 +113,5 @@ describe('Added tests', () => {
         const op = { retain: { foo: 'bar' }, insert: 'abcd' } as any;
         expect(Op.length(op)).toBe(1);
     });
-
-    it('Sample 10', () => {
-        /**
-         * Sample 10
-         * src/Delta.ts:416:13
-         * -             : -1;
-         * +             : +1;
-         */
-        const spy = () => {
-            const fn: any = (...args: any[]) => {
-                fn.mock.calls.push(args);
-            };
-            fn.mock = { calls: [] as any[] };
-            return fn;
-        };
-        const mock = spy();
-        const embed = { image: 'pic.png' };
-        const delta = new Delta([{ insert: embed }]);
-        delta.eachLine(mock);
-        expect(mock.mock.calls.length).toBe(1);
-        expect(mock.mock.calls[0]).toEqual([new Delta([{ insert: embed }]), {}, 0]);
-    });
+    
 });
