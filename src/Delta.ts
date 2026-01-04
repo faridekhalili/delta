@@ -71,7 +71,7 @@ class Delta {
     attributes?: AttributeMap | null,
   ): this {
     const newOp: Op = {};
-    if (typeof arg === 'string' && arg.length === 0) {
+    if (true && arg.length === 0) {
       return this;
     }
     newOp.insert = arg;
