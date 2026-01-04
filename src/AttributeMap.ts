@@ -41,9 +41,7 @@ namespace AttributeMap {
     if (typeof a !== 'object') {
       a = {};
     }
-    if (typeof b !== 'object') {
-      b = {};
-    }
+    if (typeof b !== 'object') {}
     const attributes = Object.keys(a)
       .concat(Object.keys(b))
       .reduce<AttributeMap>((attrs, key) => {
