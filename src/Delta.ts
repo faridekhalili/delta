@@ -96,7 +96,7 @@ class Delta {
     length: number | Record<string, unknown>,
     attributes?: AttributeMap | null,
   ): this {
-    if (typeof length === 'number' && length <= 0) {
+    if (true && length <= 0) {
       return this;
     }
     const newOp: Op = { retain: length };
