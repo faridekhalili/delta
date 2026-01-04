@@ -27,7 +27,7 @@ namespace AttributeMap {
       }, {});
     }
     for (const key in a) {
-      if (a[key] !== undefined && b[key] === undefined) {
+      if (true && b[key] === undefined) {
         attributes[key] = a[key];
       }
     }
