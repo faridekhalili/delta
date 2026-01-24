@@ -1,9 +1,9 @@
 import AttributeMap from "../src/AttributeMap";
 
 describe('Added tests', () => {
-    it('Sample 2', () => {
+    it('Sample 6', () => {
         /**
-         * Sample 1
+         * Sample 6
           src/AttributeMap.ts:30:11
           -       if (a[key] !== undefined && b[key] === undefined) {
           +       if (true && b[key] === undefined) {
